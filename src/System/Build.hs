@@ -3,6 +3,7 @@ module System.Build(BuildArgs(..), asBinaryName, asStackArg
                    , stackInDocker) where
 
 import           Data.Functor
+import           Data.Semigroup   (Semigroup, (<>))
 import           Data.String
 import           System.Directory
 import           System.Docker
@@ -23,9 +24,11 @@ data BuildArgs = SimpleTarget String
                -- ^Neutral element for `BuildArgs`
   deriving (Eq, Show, Read)
 
+instance Semigroup BuildArgs where
+  (<>) = MoreArgs
+
 instance Monoid BuildArgs where
   mempty  = NoArgs
-  mappend = MoreArgs
 
 instance IsString BuildArgs where
   fromString = SimpleTarget

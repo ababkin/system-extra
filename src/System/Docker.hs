@@ -5,7 +5,7 @@ module System.Docker where
 
 import           Data.Char            (toLower)
 import           Data.List            (foldl1', intercalate)
-import           Data.Monoid          ((<>))
+import           Data.Semigroup       (Semigroup, (<>))
 import           System.Network.Extra
 
 -- | A Docker image reference
@@ -56,9 +56,12 @@ data RunParam = Port { hostInterface :: IPInterface, hostPort :: Port, container
               | Detach
               | NoParam
 
+instance Semigroup RunParam where
+  (<>) = (:--)
+
 instance Monoid RunParam where
   mempty = NoParam
-  mappend = (:--)
+
 
 -- | Available drivers
 --
