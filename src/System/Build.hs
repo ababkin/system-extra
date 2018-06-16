@@ -29,6 +29,7 @@ instance Semigroup BuildArgs where
 
 instance Monoid BuildArgs where
   mempty  = NoArgs
+  mappend = (<>)
 
 instance IsString BuildArgs where
   fromString = SimpleTarget
